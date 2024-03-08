@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.ahcloud.edas</groupId>
+        <artifactId>edas</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>component</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>edas-admin</module>
+        <module>edas-devops</module>
+        <module>edas-gateway</module>
+        <module>edas-rocketmq</module>
+        <module>edas-uaa</module>
+        <module>edas-nacos</module>
+        <module>edas-powerjob</module>
+        <module>edas-pulsar</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+</project>

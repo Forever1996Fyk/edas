@@ -1,0 +1,44 @@
+package com.ahcloud.edas.uaa.starter.core.handler;
+
+import com.ahcloud.edas.common.domain.common.ResponseResult;
+import com.ahcloud.edas.common.enums.ErrorCode;
+import com.ahcloud.edas.common.util.JsonUtils;
+import com.google.common.base.Throwables;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.Serializable;
+
+/**
+ * @description 认证异常处理类
+ * @author yinjinbiao
+ * @create 2021/12/16 10:40
+ * @version 1.0
+ */
+@Slf4j
+@Component
+public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, Serializable {
+    private static final long serialVersionUID = -8970718410437077606L;
+
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e)
+            throws IOException {
+
+	    response.setContentType("application/json");
+	    response.setCharacterEncoding("utf-8");
+		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		ErrorCode errorCodeEnum = SecurityExceptionHandler.extractErrorCodeEnum(e);
+		response.getWriter()
+				.print(JsonUtils.toJsonString(
+						ResponseResult.ofFailed(errorCodeEnum)
+				));
+
+	    log.error("[Token端点异常处理] ==> [异常信息为:{}]", Throwables.getStackTraceAsString(e));
+    }
+}

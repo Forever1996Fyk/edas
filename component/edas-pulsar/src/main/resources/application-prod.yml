@@ -1,0 +1,124 @@
+permission:
+  config:
+    msgcenter:
+      umeng:
+        androidAppKey:
+        androidAppMasterSecret:
+        iosAppKey:
+        iosAppMasterSecret:
+    netty:
+      port: 9090
+    decrypt:
+      decrypt-secret-key: permission
+
+spring:
+  redis:
+    ################### redis 单机版 start ##########################
+    host: r-m5e8wil6gs05qenq7ipd.redis.rds.aliyuncs.com
+    port: 6379
+    password: xm_zky_V2
+    timeout: 6000
+    database: 0
+    lettuce:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制）,如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)
+        max-active: 10
+        # 连接池中的最大空闲连接 ，默认值也是8
+        max-idle: 8
+        # 等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException
+        max-wait: 100
+        # 连接池中的最小空闲连接 ，默认值也是0
+        min-idle: 2
+      shutdown-timeout: 100ms
+  # sharding-jdbc 数据源配置
+  shardingsphere:
+    datasource:
+      names: permissions0, leaf0
+      permissions0:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://rm-uf6m359207k4vlf80.mysql.rds.aliyuncs.com:3306/permission-center?serverTimezone=GMT%2B8&autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
+        username: root
+        password: xm_zky_V2
+      leaf0:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://rm-uf6m359207k4vlf80.mysql.rds.aliyuncs.com:3306/leaf?serverTimezone=GMT%2B8&autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
+        username: root
+        password: xm_zky_V2
+    props:
+      sql:
+        show: true
+    sharding:
+      default-data-source-name: permissions0
+      default-database-strategy:
+        none:
+          any:
+      default-table-strategy:
+        none:
+          any:
+      tables:
+        leaf:
+          actual-data-nodes: leaf0.leaf_alloc
+        thread_pool_data:
+          actual-data-nodes: permissions0.thread_pool_data_$->{2021..2022}$->{['01','02','03','04','05','06','07','08','09','10','11','12']}
+          table-strategy:
+            standard:
+              sharding-column: sharding_key
+              precise-algorithm-class-name: com.ah.cloud.permissions.biz.infrastructure.sharding.ThreadPoolDataShardingAlgorithm
+
+security:
+  api:
+    permit-all:
+      - /login/usernamePasswordLogin
+      - /login/validateCodeLogin
+      - /validateCode/sendCode
+      - /validateCode/sendSmsCode
+      - /validateCode/sendEmailCode
+      - /zky/live/pushStreamCallback
+      - /logout
+      - /zky/live/liveRecordVideoCompleteCallback
+      - /zky/live/createOrLeaveRoom
+      - /zky/**
+
+mq:
+  redis:
+    topic:
+      quartzJobChange:
+        name: quartz-job-change-channel
+      operateChatRoom:
+        name: operate-chat-room
+      chatRoomNodeListener:
+        name: chat-room-node
+      chatRoomNodeListenerPattern:
+        name: chat-room-node:*
+      groupChatListenerNode:
+        name: group-chat-Node
+      groupChatListenerNodePattern:
+        name: group-chat-Node:*
+
+system:
+  upload:
+    path: /upload
+  local:
+    file:
+      uri: http://106.15.54.188:8080/showImage/
+  mode: developer
+
+jasypt:
+  encryptor:
+    password: permission
+
+live:
+  appName: xmzx
+  # 直播拉流地址
+  pullDomainName: live.play.ximuzaixian.com
+  # 直播推流地址
+  pushDomainName: live.ximuzaixian.com
+  # 私钥
+  pullPrivateKey: F0KISnRJ4GbJETV9
+  pushPrivateKey: 7Tq6chg5sw25x9zv
+  callbackDomainName: live.ximuzaixian.com
+  callbackPrivateKey: e08130c6f1c7df61
+  liveRecordCompleteCallbackUrl: https://system.api.ximuzaixian.com/zky/live/liveRecordVideoCompleteCallback
+  liveRecordCompleteCallbackPrivateKey: 71C4c1baad69

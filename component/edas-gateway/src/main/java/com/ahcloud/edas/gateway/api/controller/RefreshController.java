@@ -1,0 +1,32 @@
+package com.ahcloud.edas.gateway.api.controller;
+
+import com.ahcloud.edas.common.domain.common.ResponseResult;
+import com.ahcloud.edas.gateway.core.application.manager.GatewayApiManager;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+
+/**
+ * @program: ahcloud-gateway
+ * @description:
+ * @author: YuKai Fan
+ * @create: 2023/2/8 10:03
+ **/
+@RestController
+@RequestMapping("/refresh")
+public class RefreshController {
+    @Resource
+    private GatewayApiManager gatewayApiManager;
+
+    /**
+     * 刷新接口
+     * @return
+     */
+    @PostMapping("/refreshApi")
+    public ResponseResult<Void> refreshApi() {
+        gatewayApiManager.refreshApi();
+        return ResponseResult.ofSuccess();
+    }
+}

@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.ahcloud.edas.uaa.starter.configuration.UaaAutoConfiguration,\
+  com.ahcloud.edas.uaa.starter.configuration.EdasSecurityConfiguration,\
+  com.ahcloud.edas.uaa.starter.configuration.RedisConfiguration
