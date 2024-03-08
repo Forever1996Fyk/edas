@@ -23,6 +23,10 @@
 11. Nacos管理：二次整合Nacos服务，定制化开发配置中心。
 12. Powerjob管理：二次整合PowerJob, 定制化开发分布式任务调度中心。
 
+## 文档地址
+
+[文档地址](https://www.yuque.com/u2194782/yv4g48)
+
 ## 演示图
 
 <table>
