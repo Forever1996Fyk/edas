@@ -244,3 +244,32 @@ INSERT INTO `gateway_api_meta_data` VALUES (76,'ahcloud-uaa-api','/ahcloud-uaa-a
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2024-02-04 10:39:34
+
+-- auto-generated definition
+create table gateway_route_definition
+(
+    id                          bigint auto_increment comment '主键id'
+        primary key,
+    app_id                      bigint           default 0                 not null comment 'appId',
+    app_name                    varchar(128)     default ''                not null comment 'app名称',
+    route_id                    varchar(64)      default ''                not null comment '路由id',
+    service_id                  varchar(128)     default ''                not null comment '服务id',
+    uri                         varchar(128)     default ''                not null comment '路由uri',
+    rpc_type                    varchar(16)      default ''                not null comment 'rpc类型',
+    context_path                varchar(256)     default ''                not null comment '上下文路径',
+    predicate_definition_config varchar(2048)    default ''                not null comment '断言定义配置',
+    filter_definition_config    varchar(2048)    default ''                not null comment '过滤器定义配置',
+    route_type                  tinyint          default 1                 not null comment '路由类型',
+    env                         varchar(8)       default ''                not null comment '环境变量',
+    remark                      varchar(256)     default ''                not null comment '备注',
+    creator                     varchar(64)                                not null comment '行记录创建者',
+    modifier                    varchar(64)                                not null comment '行记录最近更新人',
+    created_time                timestamp        default CURRENT_TIMESTAMP not null comment '行记录创建时间',
+    modified_time               timestamp        default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '行记录最近修改时间',
+    version                     tinyint unsigned default '0'               not null comment '行版本号',
+    extension                   varchar(2048)    default ''                not null comment '拓展字段',
+    deleted                     bigint           default 0                 not null comment '是否删除',
+    constraint uniq_route
+        unique (env, app_id, route_id, service_id, deleted)
+)
+    comment '网关路由定义表';
